@@ -3,7 +3,6 @@
 Este é um projeto de sistema de votação desenvolvido em **Spring Boot 3.2+**, utilizando:
 - **Apache Kafka** para eventos assíncronos
 - **PostgreSQL** para persistência de dados
-- **Testcontainers** e **H2** para testes
 - **Docker Compose** para infraestrutura local
 
 ---

@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/votingdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: false
+
+  sql:
+    init:
+      mode: always
+
+  spring:
+    kafka:
+      bootstrap-servers: kafka:9092
+      consumer:
+        group-id: voting-group
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+          spring.json.trusted.packages: "*"
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+  paths-to-match: /**
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} TRACE_ID=%X{traceId} %logger{36}.%M - %msg%n"
+
+
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+
+app:
+  kafka:
+    topicos:
+      sessao-finalizada: sessao.finalizada
+    grupos:
+      sessao-finalizada: voting-consumer
+    containers:
+      sessao-finalizada: kafkaListenerContainerFactory
+
